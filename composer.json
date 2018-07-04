@@ -14,7 +14,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"rest\\": "vendor/rest"
+			"rest\\": "src/"
 		}
 	}
 }
