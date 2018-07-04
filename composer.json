@@ -1,6 +1,14 @@
 {
 	"name" : "weedukind/rest",
 	"description" : "REST interface for opencarat",
+	"type" : "library",
+	"licence" : "MIT",
+	"authors" : [
+		{
+			"name": "Christian Rosenhagen",
+			"email" : "christian@opencarat.com"
+		}
+	],
 	"require": {
 		"php": "7.*"
 	},
