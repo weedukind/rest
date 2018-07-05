@@ -16,7 +16,5 @@ class Get extends \rest\Method {
 		} catch (\Exception $e) { // FIXME
 			$this->service->error(1, 'Cannot load entity "'.$id.'".');
 		}
-//		$this->service->out();
 	}
 }
-

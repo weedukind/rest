@@ -15,4 +15,8 @@ echo "POST\n";
 	public function put($id, $data) {
 echo "PUT\n";
 	}
+
+	public function delete($id) {
+echo "DELETE\n";
+	}
 }

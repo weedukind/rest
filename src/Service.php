@@ -9,6 +9,7 @@ abstract class Service {
 	public abstract function get($id);
 	public abstract function post($doc);
 	public abstract function put($id, $doc);
+	public abstract function delete($id);
 
 	public function error ($id, $msg, $data = NULL) {
 		$this->data['response'] = array(
