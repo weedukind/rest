@@ -7,8 +7,8 @@ abstract class Service {
 	protected $data = NULL;
 
 	public abstract function get($id);
-	public abstract function create($doc);
-	public abstract function update($id, $doc);
+	public abstract function post($doc);
+	public abstract function put($id, $doc);
 
 	public function error ($id, $msg, $data = NULL) {
 		$this->data['response'] = array(

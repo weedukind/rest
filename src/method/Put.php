@@ -7,12 +7,10 @@ class Put extends \rest\Method {
 	public function run() {
 
 		if (NULL === $this->id) {
-			$this->service->create($this->data);
+			throw new \Exception('No id defined for PUT.', 999);
 		} else {
-			$this->service->update($this->id, $this->data);
+			$this->service->put($this->id, $this->data);
 		}
-//		$this->service->out();
 	}
 
 }
-

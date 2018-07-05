@@ -4,7 +4,7 @@ namespace rest;
 
 class Rest {
 
-	protected static $VERSION = '1.0.6';
+	protected static $VERSION = '1.0.7';
 	protected $method = NULL;
 	protected $service = NULL;
 	protected $id = NULL;
@@ -22,7 +22,20 @@ class Rest {
 
 	public function set_service(String $s) {
 		$class = '\rest\service\\'.ucfirst(strtolower($s));
-		$this->service = new $class();
+		try {
+			$this->service = new $class();
+		} catch (\Throwable $e) {
+			$this->error('Service "'.$s.'" is not supported.', 999);
+		}
+	}
+
+	public function error($msg, $id) {
+		$out = array(
+			'error' => $id,
+			'msg' => $msg
+		);
+		echo json_encode($out);
+		exit();
 	}
 
 	public function set_id(String $s = NULL) {
@@ -41,6 +54,7 @@ class Rest {
 		$this->method->run($this->id);
 
 		$out = array(
+			'error' => 0,
 			'version' => static::$VERSION,
 			'time' => time(),
 			'took' => microtime(TRUE) - $this->start,
