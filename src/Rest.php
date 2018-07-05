@@ -4,25 +4,48 @@ namespace rest;
 
 class Rest {
 
+	protected static $VERSION = '1.0.6';
 	protected $method = NULL;
 	protected $service = NULL;
 	protected $id = NULL;
+	protected $data = NULL;
+	protected $start = NULL;
 
-	public function __construct(String $method, String $service, String $id = NULL) {
+	public function __construct() {
+		$this->start = microtime(TRUE);
+	}
 
-		$this->method  = $method;
-		$this->service = $service;
-		$this->id      = $id;
+	public function set_method(String $s) {
+		$class = '\rest\method\\'.ucFirst(strtolower($s));
+		$this->method = new $class();
+	}
+
+	public function set_service(String $s) {
+		$class = '\rest\service\\'.ucfirst(strtolower($s));
+		$this->service = new $class();
+	}
+
+	public function set_id(String $s = NULL) {
+		$this->id = $s;
+	}
+
+	public function set_data(String $s) {
+		$this->data = $s;
 	}
 
 	public function run() {
 
-		$class = '\rest\service\\'.ucfirst(strtolower($this->service));
-		$service = new $class();
+		$this->method->set_service($this->service);
+		$this->method->set_id($this->id);
+		$this->method->set_data($this->data);
+		$this->method->run($this->id);
 
-		$class = '\rest\method\\'.ucFirst(strtolower($this->method));
-		$method = new $class($service);
-
-		$method->run($this->id);
+		$out = array(
+			'version' => static::$VERSION,
+			'time' => time(),
+			'took' => microtime(TRUE) - $this->start,
+			'response' => $this->service->get_out(),
+		);
+		echo json_encode($out);
 	}
 }
