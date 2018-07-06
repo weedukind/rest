@@ -4,7 +4,7 @@ namespace rest;
 
 class Rest {
 
-	protected static $VERSION = '1.0.8';
+	protected static $VERSION = '1.0.9';
 	protected $method = NULL;
 	protected $service = NULL;
 	protected $id = NULL;
@@ -16,8 +16,7 @@ class Rest {
 	}
 
 	public function set_method(String $s) {
-		$class = '\rest\method\\'.ucFirst(strtolower($s));
-		$this->method = new $class();
+		$this->method = strtoupper($s);
 	}
 
 	public function set_service(String $s) {
@@ -48,11 +47,23 @@ class Rest {
 
 	public function run() {
 
-		$this->method->set_service($this->service);
-		$this->method->set_id($this->id);
-		$this->method->set_data($this->data);
-		$this->method->run($this->id);
-
+		switch ($this->method) {
+			case 'GET':
+				$this->get();
+				break;
+			case 'PUT':
+				$this->put();
+				break;
+			case 'POST':
+				$this->post();
+				break;
+			case 'DELETE':
+				$this->delete();
+				break;
+			default:
+				throw new \Exception('unknown method "'.$this->method.'".', 999);
+		}
+ 
 		$out = array(
 			'error' => 0,
 			'version' => static::$VERSION,
@@ -61,5 +72,41 @@ class Rest {
 			'response' => $this->service->get_out(),
 		);
 		echo json_encode($out);
+	}
+
+	protected function get() {
+
+		if (NULL === $this->id) {
+
+			throw Exception("FIXME");
+		}
+		try {
+
+			$this->service->get($this->id);
+		} catch (\Exception $e) { // FIXME
+			$this->service->error(1, 'Cannot load entity "'.$id.'".');
+		}
+	}
+
+	protected function put() {
+
+		if (NULL === $this->id) {
+			throw new \Exception('No id defined for PUT.', 999);
+		} else {
+			$this->service->put($this->id, $this->data);
+		}
+	}
+
+	protected function post() {
+		$this->service->post($this->data);
+	}
+
+	protected function delete() {
+
+		if (NULL === $this->id) {
+
+			throw Exception("FIXME");
+		}
+		$this->service->delete($this->id);
 	}
 }

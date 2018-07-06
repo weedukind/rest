@@ -21,7 +21,6 @@ abstract class Service {
 
 	public function get_out() {
 		return $this->data;
-//		echo json_encode($this->data);
 	}
 }
 
