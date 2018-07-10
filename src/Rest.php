@@ -4,7 +4,7 @@ namespace rest;
 
 class Rest {
 
-	protected static $VERSION = '1.0.9';
+	protected static $VERSION = '1.0.10';
 	protected $method = NULL;
 	protected $service = NULL;
 	protected $id = NULL;
