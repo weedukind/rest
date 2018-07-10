@@ -20,11 +20,17 @@ class Rest {
 	}
 
 	public function set_service(String $s) {
-		$class = '\rest\service\\'.ucfirst(strtolower($s));
+		$class = $s;
 		try {
 			$this->service = new $class();
 		} catch (\Throwable $e) {
-			$this->error('Service "'.$s.'" is not supported.', 999);
+			$this->error('Service "'.$s.'" not found.', 999);
+		}
+		if (!is_subclass_of($this->service, '\rest\Service')) {
+			echo get_class($this->service);
+			if ('rest\Service' !== get_class($this->service)) {
+				$this->error('Service "'.$s.'" not found (2).', 999);
+			}
 		}
 	}
 

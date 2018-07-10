@@ -2,14 +2,9 @@
 
 namespace rest;
 
-abstract class Service {
+class Service {
 
 	protected $data = NULL;
-
-	public abstract function get($id);
-	public abstract function post($doc);
-	public abstract function put($id, $doc);
-	public abstract function delete($id);
 
 	public function error ($id, $msg, $data = NULL) {
 		$this->data['response'] = array(
@@ -21,6 +16,27 @@ abstract class Service {
 
 	public function get_out() {
 		return $this->data;
+	}
+
+	public function get($id) {
+		echo "GET\n";
+		echo "ID: $id\n";
+	}
+
+	public function post($data) {
+		echo "POST\n";
+		print_r($data);
+	}
+
+	public function put($id, $data) {
+		echo "PUT\n";
+		echo "ID: $id\n";
+		print_r($data);
+	}
+
+	public function delete($id) {
+		echo "DELETE\n";
+		echo "ID: $id\n";
 	}
 }
 
